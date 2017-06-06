@@ -1,0 +1,32 @@
+<h1>Directives</h1>
+<h2>Attribute</h2>
+<div [ngClass]="{'app-border': true, 'app-background': false}">Content</div>
+<div [ngStyle]="{'background': 'green'}">Content</div>
+<h3>Custom Attribute</h3>
+<div [dirHighlight]="'red'" [defaultColor]="'blue'">Highlight 1</div>
+<div dirHighlight="red" defaultColor="blue">Highlight 2</div>
+<h2>Structural</h2>
+<h3>*ngIf</h3>
+<div *ngIf="switch">Conditional Text 1</div>
+<template [ngIf]="switch">
+    <div>Conditional Text 2</div>
+</template>
+<button (click)="onSwitch()">Toggle</button>
+<h3>*ngFor</h3>
+<ul>
+  <li *ngFor="let item of items; let i = index">{{item}} ({{i}})</li>
+</ul>
+<h3>*ngSwitch</h3>
+<div [ngSwitch]="switchValue">
+  Always included content
+  <p *ngSwitchCase="1">1</p>
+  <p *ngSwitchCase="2">2</p>
+  <p *ngSwitchDefault>3</p>
+</div>
+<p [ngSwitch]="switchValue">
+  <template [ngSwitchCase]="1">1</template>
+  <template [ngSwitchCase]="2">2</template>
+  <template ngSwitchDefault>3</template>
+</p>
+<h3>dirUnless</h3>
+<div *dirUnless="switch">Conditional Text 3</div>

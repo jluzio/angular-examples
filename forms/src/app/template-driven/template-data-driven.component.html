@@ -1,0 +1,71 @@
+<h1>Template Driven</h1>
+<form #templateForm="ngForm" (ngSubmit)="onSubmit()">
+  <div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text"
+             class="form-control"
+             [(ngModel)]="user.username"
+             name="username"
+             id="username"
+             #username="ngModel"
+             >
+      <div *ngIf="username.errors && (username.dirty || username.touched)"
+          class="alert alert-danger">
+          <div [hidden]="!username.errors.required">
+            Name is required
+          </div>
+          <div [hidden]="!username.errors.minlength">
+            Name must be at least 4 characters long.
+          </div>
+          <div [hidden]="!username.errors.maxlength">
+            Name cannot be more than 24 characters long.
+          </div>
+      </div>      
+    </div>
+    <div class="form-group">
+      <label for="email">E-Mail</label>
+      <input type="text"
+             class="form-control"
+             [(ngModel)]="user.email"
+             name="email"
+             id="email"
+             #email="ngModel">
+      <div *ngIf="email.errors && (email.dirty || email.touched)"
+          class="alert alert-danger">
+          <div [hidden]="!email.errors.pattern">
+            Pattern
+          </div>
+      </div>                   
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password"
+           class="form-control"
+           [(ngModel)]="user.password"
+           name="password"
+           id="password"
+           #password="ngModel">
+      <div *ngIf="password.errors && (password.dirty || password.touched)"
+          class="alert alert-danger">
+          <div [hidden]="!password.errors.test">
+            Test
+          </div>
+      </div>                   
+  </div>
+  <div class="radio">
+    <label>
+    </label>
+  </div>
+  <div>
+    <div>
+      <div *ngFor="let hobby of user.hobbies; let i = index">
+        <input type="text" [(ngModel)]="hobby.name" name="hobby.{{i}}.name" />
+        <button type="button" class="btn btn-default" (click)="onRemoveHobby(i)">Remove</button>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-default" (click)="onAddHobby()">Add Hobby</button>
+  <button type="submit" class="btn btn-primary" [disabled]="!templateForm.valid">Submit</button>
+</form>

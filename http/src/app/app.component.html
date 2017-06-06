@@ -1,0 +1,18 @@
+<h1>
+  {{title}}
+</h1>
+<h3>Title Observable: {{titleObservable | async}}</h3>
+<form>
+  <input type="text" name="name" [(ngModel)]="user.name">
+  <input type="text" name="email" [(ngModel)]="user.email">
+  <span>Status: {{status}}</span>
+  <hr>
+  <button (click)="saveData()">Save</button>
+  <button (click)="loadDataList()">Load List</button>
+  <hr>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let user of users">
+      {{user.name}} | {{user.email}}
+    </li>
+  </ul>
+</form>

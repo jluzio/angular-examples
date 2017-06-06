@@ -1,0 +1,38 @@
+<div *ngIf="selectedRecipe">
+  <div class="row">
+    <div class="col-xs-12">
+      <img src="{{selectedRecipe.imagePath}}" alt="" class="img-responsive">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>{{selectedRecipe.name}}</h1>
+    </div>
+    <div class="col-xs-12">
+      <button class="btn btn-success" (click)="onAddToShoppingList()">To Shopping List</button>
+      <button class="btn btn-primary" (click)="onEdit()">Edit</button>
+      <button class="btn btn-danger" (click)="onDelete()">Delete</button>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">{{selectedRecipe.description}}</div>
+
+        <!--      
+          <div class="panel-body"> 
+          </div>
+        -->
+
+        <!-- List group -->
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let ingredient of selectedRecipe.ingredients">
+            {{ingredient.name}} ({{ingredient.amount}})
+          </li>
+        </ul>
+      </div>    
+    </div>
+  </div>
+</div>
