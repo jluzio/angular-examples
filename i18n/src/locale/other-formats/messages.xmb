@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE messagebundle [
+<!ELEMENT messagebundle (msg)*>
+<!ATTLIST messagebundle class CDATA #IMPLIED>
+
+<!ELEMENT msg (#PCDATA|ph|source)*>
+<!ATTLIST msg id CDATA #IMPLIED>
+<!ATTLIST msg seq CDATA #IMPLIED>
+<!ATTLIST msg name CDATA #IMPLIED>
+<!ATTLIST msg desc CDATA #IMPLIED>
+<!ATTLIST msg meaning CDATA #IMPLIED>
+<!ATTLIST msg obsolete (obsolete) #IMPLIED>
+<!ATTLIST msg xml:space (default|preserve) "default">
+<!ATTLIST msg is_hidden CDATA #IMPLIED>
+
+<!ELEMENT source (#PCDATA)>
+
+<!ELEMENT ph (#PCDATA|ex)*>
+<!ATTLIST ph name CDATA #REQUIRED>
+
+<!ELEMENT ex (#PCDATA)>
+]>
+<messagebundle>
+  <msg id="4150330030790364157"><source>D:/dev/source/_research_/angular/angular-examples/i18n/src/app/app.component.ts:6</source><source>D:/dev/source/_research_/angular/angular-examples/i18n/src/app/app.component.ts:9</source>Hello i18n!</msg>
+  <msg id="6822994659528630329" desc="An introduction header for this sample" meaning="User welcome"><source>D:/dev/source/_research_/angular/angular-examples/i18n/src/app/app.component.ts:12</source>Hello i18n!</msg>
+  <msg id="5206857922697139278"><source>D:/dev/source/_research_/angular/angular-examples/i18n/src/app/app.component.ts:15</source>I don&apos;t output any element</msg>
+  <msg id="8937120267172404034" desc="optional description" meaning="optional meaning"><source>D:/dev/source/_research_/angular/angular-examples/i18n/src/app/app.component.ts:20,22</source>
+    I don&apos;t output any element either
+    </msg>
+  <msg id="392942015236586892"><source>D:/dev/source/_research_/angular/angular-examples/i18n/src/app/app.component.ts:25</source>Angular logo</msg>
+  <msg id="1922302533179853724"><source>D:/dev/source/_research_/angular/angular-examples/i18n/src/app/app.component.ts:28</source>{VAR_PLURAL, plural, =0 {no wolves} =1 {one wolf} =2 {two wolves} other {a wolf pack} }</msg>
+</messagebundle>

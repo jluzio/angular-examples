@@ -1,3 +1,42 @@
 <h1>
   {{title}}
 </h1>
+<p>
+  <a href="https://angular.io/docs/ts/latest/cookbook/i18n.html">Cookbook</a>
+</p>
+<code>
+  Gerar:
+  ./node_modules/.bin/ng-xi18n  --i18nFormat=xlf
+  ./node_modules/.bin/ng-xi18n  --i18nFormat=xmb
+</code>
+<code>
+  ng serve --aot --i18n-file=./src/locale/messages.pt.xlf --locale=pt --i18n-format=xlf
+</code>
+<p>
+  <li>
+    <h1 i18n>Hello i18n!</h1>
+  </li>
+  <li>
+    <h1 i18n="An introduction header for this sample">Hello i18n!</h1>
+  </li>
+  <li>
+    <h1 i18n="User welcome|An introduction header for this sample">Hello i18n!</h1>
+  </li>
+  <li>
+    <ng-container i18n>I don't output any element</ng-container>
+  </li>
+  <li>
+  </li>
+  <li>
+    <!--i18n: optional meaning|optional description -->
+    I don't output any element either
+    <!--/i18n-->
+  </li>
+  <li>
+    <img [src]="logo" i18n-title title="Angular logo" />
+  </li>
+  <li>
+    <span i18n>{wolves, plural, =0 {no wolves} =1 {one wolf} =2 {two wolves} other {a wolf pack}}</span>  
+  </li>  
+</p>
+
