@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <h1>Animations</h1>
+      <button class="btn btn-primary" (click)="onAnimate()">Animate!</button>
+      <button class="btn btn-primary" (click)="onShrink()">Shrink!</button>
+    </div>
+    <div class="col-md-5">
+      <div class="animBox" 
+        [@divTrigger]="state"
+        (@divTrigger.start)="onAnimationStart($event)"
+        (@divTrigger.done)="onAnimationDone($event)"
+        >
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="animBox" [@wildTrigger]="wildState"></div>
+    </div>
+  </div>
+  <div class="row spacer"></div>
+  <div class="row">
+    <div class="col-md-12">
+      <input type="text" #input value="another">
+      <button class="btn btn-primary" (click)="onAdd(input.value)">Add Item!</button>
+    </div>
+  </div>
+  <div class="row spacer"></div>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          (click)="onDelete(item)"
+          [@listTrigger]
+          *ngFor="let item of list">
+          {{ item }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          (click)="onDelete(item)"
+          [@list2Trigger]
+          *ngFor="let item of list">
+          {{ item }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

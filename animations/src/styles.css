@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+    padding-top: 10px;
+}
+
+.animBox {
+    width: 100px;
+    height: 100px;
+}
+
+.spacer {
+    height: 20px;
+}
