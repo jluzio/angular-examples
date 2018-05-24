@@ -4,10 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { environment } from 'environments/environment';
 
 @Injectable()
-export class StorageService {
-  private dbUrl = environment.databaseUrl;
-  private resourceKey = "{resource}";
-  private resourcePattern = `${this.dbUrl}/${this.resourceKey}.json`;
+export class RestService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -16,29 +13,25 @@ export class StorageService {
 
   constructor(private http: HttpClient) { }
 
-  public getResource<T>(resource: string) {
-    return <Observable<T>> this.http.get(this.resourceUrl(resource));
+  public getResource<T>(resourceUrl: string) {
+    return <Observable<T>> this.http.get(resourceUrl);
   }
 
-  public postResource(resource: string, data: any) {
-    return this.http.post(this.resourceUrl(resource), JSON.stringify(data), this.httpOptions);
+  public postResource(resourceUrl: string, data: any) {
+    return this.http.post(resourceUrl, JSON.stringify(data), this.httpOptions);
   }
 
-  public putResource(resource: string, data: any) {
-    return this.http.put(this.resourceUrl(resource), JSON.stringify(data), this.httpOptions);
+  public putResource(resourceUrl: string, data: any) {
+    return this.http.put(resourceUrl, JSON.stringify(data), this.httpOptions);
   }
   
-  public deleteResource(resource: string) {
-    return this.http.delete(this.resourceUrl(resource));
+  public deleteResource(resourceUrl: string) {
+    return this.http.delete(resourceUrl);
   }
 
-  public getResourceAsPromise(resource: string) {
-    return this.http.get(this.resourceUrl(resource))
+  public getResourceAsPromise(resourceUrl: string) {
+    return this.http.get(resourceUrl)
       .toPromise();
-  }
-
-  private resourceUrl(resource: string) {
-    return this.resourcePattern.replace(this.resourceKey, resource);
   }
   
   /*
