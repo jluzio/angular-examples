@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,8 @@ import { RecipeService } from './recipes/recipe.service';
 import { ShoppingListService } from './shopping-list/shopping-list.service';
 import { StorageService } from './storage.service';
 import { HomeComponent } from './home.component';
+import { RestService } from './rest.service';
+import { CommentService } from './comments/comment.service';
 
 @NgModule({
   declarations: [
@@ -21,10 +23,10 @@ import { HomeComponent } from './home.component';
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     AppRoutingModule
   ],
-  providers: [RecipeService, ShoppingListService, StorageService],
+  providers: [RecipeService, ShoppingListService, StorageService, RestService, CommentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

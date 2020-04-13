@@ -113,7 +113,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   private createDefaultRecipe() {
-    return new Recipe("", "", "", []);
+    return new Recipe(null, "", "", "", []);
   }
 
   private createDefaultIngredient() {

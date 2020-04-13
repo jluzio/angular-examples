@@ -7,11 +7,13 @@ import { Ingredient } from '../shared';
 @Injectable()
 export class RecipeService {
   defaultRecipes: Recipe[] = [
-    new Recipe('Schnitzel', 'Very tasty', 'http://www.daringgourmet.com/wp-content/uploads/2014/03/Schnitzel-7_edited.jpg', [
+    new Recipe(1, 'Schnitzel', 'Very tasty', 'http://www.daringgourmet.com/wp-content/uploads/2014/03/Schnitzel-7_edited.jpg', [
       new Ingredient("Pork Meat", 1),
       new Ingredient("French Fries", 2)
     ]),
-    new Recipe('Summer Salad', 'Okayish', 'http://ohmyveggies.com/wp-content/uploads/2013/06/the_perfect_summer_salad.jpg', [])
+    new Recipe(2, 'Summer Salad', 'Okayish', 'http://ohmyveggies.com/wp-content/uploads/2013/06/the_perfect_summer_salad.jpg', [
+      new Ingredient("Pork Meat", 1)
+    ])
   ];
   recipes: Recipe[] = this.defaultRecipes;
   recipesChanged = new EventEmitter<Recipe[]>();
@@ -23,7 +25,7 @@ export class RecipeService {
   }
 
   getRecipe(id: number) {
-    return this.recipes[id];
+    return this.recipes[this.toIndex(id)];
   }
 
   deleteRecipe(recipe: Recipe) {
@@ -33,9 +35,9 @@ export class RecipeService {
   saveOrUpdateRecipe(recipeId: number, recipe: Recipe) {
     if (recipeId === null) {
       this.recipes.push(recipe);
-      recipeId = this.recipes.length - 1;
+      recipeId = this.toId(this.recipes.length - 1);
     } else {
-      this.recipes[recipeId] = recipe;
+      this.recipes[this.toIndex(recipeId)] = recipe;
     }
     return recipeId;
   }
@@ -43,7 +45,7 @@ export class RecipeService {
   getRecipesStorage() {
     console.log("getRecipesStorage");
     this.recipes = [];
-    this.storageService.getResource("recipes").subscribe(
+    this.storageService.getResource<Recipe[]>("recipes").subscribe(
       data => {
         console.log(JSON.stringify(data));
         this.recipes = data;
@@ -74,6 +76,14 @@ export class RecipeService {
         console.log("Unable to save recipes: " + error);
       }
     );    
+  }
+
+  toId(index: number) {
+    return index + 1;
+  }
+
+  toIndex(id: number) {
+    return id - 1;
   }
     
 }
