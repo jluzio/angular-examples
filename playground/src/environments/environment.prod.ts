@@ -1,5 +1,7 @@
+import apiKeys from './api-keys.json'
+
 export const environment = {
   production: true,
-  databaseUrl: "https://dev-apps-269517.firebaseio.com",
+  apiKeys,
   restApiUrl: "https://jsonplaceholder.typicode.com"
 };

@@ -2,9 +2,11 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import apiKeys from './api-keys.json'
+
 export const environment = {
   production: false,
-  databaseUrl: "https://dev-apps-269517.firebaseio.com",
+  apiKeys,
   restApiUrl: "https://jsonplaceholder.typicode.com"
 };
 

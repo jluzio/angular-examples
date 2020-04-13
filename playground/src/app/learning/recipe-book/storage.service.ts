@@ -5,7 +5,7 @@ import { environment } from '@/environments/environment';
 
 @Injectable()
 export class StorageService {
-  private dbUrl = environment.databaseUrl;
+  private dbUrl = environment.apiKeys["recipe-book"];
   private resourceKey = "{resource}";
   private resourcePattern = `${this.dbUrl}/angular-examples/recipe-book/${this.resourceKey}.json`;
   private httpOptions = {
