@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  databaseUrl: "https://recipebook-cdbbf.firebaseio.com",
+  databaseUrl: "https://dev-apps-269517.firebaseio.com",
   restApiUrl: "https://jsonplaceholder.typicode.com"
 };
