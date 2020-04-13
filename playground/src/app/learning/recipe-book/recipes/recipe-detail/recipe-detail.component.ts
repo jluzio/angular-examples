@@ -16,11 +16,11 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
   recipeId: number;
   paramSubscription: Subscription;
 
-  constructor(private recipeService: RecipeService, 
-    private shoppingListService: ShoppingListService, 
+  constructor(private recipeService: RecipeService,
+    private shoppingListService: ShoppingListService,
     private route: ActivatedRoute,
-    private router: Router) { 
-    }
+    private router: Router) {
+  }
 
   ngOnInit() {
     this.paramSubscription = this.route.params.subscribe(
@@ -32,12 +32,12 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
   }
 
   onEdit() {
-    this.router.navigate(['/recipes', this.recipeId, 'edit']);
+    this.router.navigate(['edit'], { relativeTo: this.route });
   }
 
   onDelete() {
     this.recipeService.deleteRecipe(this.selectedRecipe);
-    this.router.navigate(['/recipes']);
+    this.router.navigate(['..'], { relativeTo: this.route });
   }
 
   onAddToShoppingList() {
@@ -47,5 +47,5 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
   }
-  
+
 }

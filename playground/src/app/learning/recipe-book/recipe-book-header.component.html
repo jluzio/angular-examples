@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" routerLink="/">Recipe Book</a>
+  <a class="navbar-brand" [routerLink]="modulePath">Recipe Book</a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" routerLinkActive="active">
-        <a routerLink="/learning/recipe-book/recipes" class="nav-link">Recipes</a>
+        <a [routerLink]="[modulePath, 'recipes']" class="nav-link">Recipes</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a routerLink="/learning/recipe-book/shopping-list" class="nav-link">Shopping List <span class="badge">{{getItemsCount()}}</span></a>
+        <a [routerLink]="[modulePath, 'shopping-list']" class="nav-link">Shopping List <span class="badge">{{getItemsCount()}}</span></a>
       </li>
       <li class="nav-item dropdown" [ngClass]="{'show': menuOpened}">
         <a class="nav-link dropdown-toggle" (click)="onToggleMenuOpened()" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true">

@@ -9,6 +9,7 @@ import { ShoppingListService } from './shopping-list/shopping-list.service';
 })
 export class RecipeBookHeaderComponent implements OnInit {
   menuOpened = false
+  modulePath = '/learning/recipe-book'
 
   constructor(private shoppingListService: ShoppingListService, private recipeService: RecipeService) { }
 
