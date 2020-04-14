@@ -1,0 +1,7 @@
+@function theme-color($key: "primary") {
+  @return map-get($theme-colors, $key);
+}
+
+@function spacer($key: 1) {
+  @return map-get($spacers, $key);
+}

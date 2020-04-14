@@ -1,5 +1,5 @@
 <mat-list>
-  <mat-list-item *ngFor="let recipe of recipes; index as i">
-    <app-recipe-item mat-line [recipe]="recipe" [recipeId]="recipe.id"></app-recipe-item>
-  </mat-list-item>
+  <app-recipe-item *ngFor="let recipe of recipes; index as i"
+    [recipe]="recipe" [recipeId]="recipe.id">
+  </app-recipe-item>
 </mat-list>

@@ -1,11 +1,5 @@
-<a class="list-group-item clearfix" routerLink="{{recipeId}}" routerLinkActive="active">
-  <div class="pull-left">
-    <h4 class="list-group-item-heading">{{recipe.name}} ({{recipe.id}})</h4>
-    <p class="list-group-item-text">{{recipe.description}}</p>
-  </div>
-  <span class="pull-right">
-      <img class="img-responsive"
-           src="{{recipe.imagePath}}"
-           style="max-height: 50px;"/>
-  </span>
-</a>
+<mat-list-item [routerLink]="recipeId" routerLinkActive="active">
+  <img matListIcon [src]="recipe.imagePath" />
+  <h3 matLine>{{recipe.name}}</h3>
+  <p matLine>{{recipe.description}}</p>
+</mat-list-item>
