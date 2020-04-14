@@ -8,7 +8,6 @@ import { ShoppingListService } from './shopping-list/shopping-list.service';
   templateUrl: './recipe-book-header.component.html'
 })
 export class RecipeBookHeaderComponent implements OnInit {
-  menuOpened = false
   modulePath = '/learning/recipe-book'
 
   constructor(private shoppingListService: ShoppingListService, private recipeService: RecipeService) { }
@@ -22,15 +21,9 @@ export class RecipeBookHeaderComponent implements OnInit {
 
   onStoreRecipes() {
     this.recipeService.saveRecipesStorage();
-    this.menuOpened = false
   }
 
   onFetchRecipes() {
     this.recipeService.getRecipesStorage();
-    this.menuOpened = false
-  }
-
-  onToggleMenuOpened() {
-    this.menuOpened = !this.menuOpened
   }
 }

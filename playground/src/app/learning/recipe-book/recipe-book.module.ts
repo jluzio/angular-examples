@@ -12,6 +12,7 @@ import { StorageService } from './storage.service';
 import { RestService } from './rest.service';
 import { CommentService } from './comments/comment.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AppCommonModule } from '@/app/app-common.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     CommonModule,
     HttpClientModule,
+    AppCommonModule,
     RecipeBookRoutingModule,
   ],
   providers: [

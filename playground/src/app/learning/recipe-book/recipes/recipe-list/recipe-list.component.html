@@ -1,13 +1,5 @@
-<div class="row">
-  <div class="col-xs-12">
-    <a routerLink="new" class="btn btn-success">New Recipe</a>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <div class="list-group">
-      <app-recipe-item *ngFor="let recipe of recipes; let i = index" [recipe]="recipe" [recipeId]="recipe.id"></app-recipe-item>
-    </div>
-  </div>
-</div>
-
+<mat-list>
+  <mat-list-item *ngFor="let recipe of recipes; index as i">
+    <app-recipe-item mat-line [recipe]="recipe" [recipeId]="recipe.id"></app-recipe-item>
+  </mat-list-item>
+</mat-list>

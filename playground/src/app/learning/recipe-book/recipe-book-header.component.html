@@ -1,22 +1,20 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" [routerLink]="modulePath">Recipe Book</a>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active">
-        <a [routerLink]="[modulePath, 'recipes']" class="nav-link">Recipes</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a [routerLink]="[modulePath, 'shopping-list']" class="nav-link">Shopping List <span class="badge">{{getItemsCount()}}</span></a>
-      </li>
-      <li class="nav-item dropdown" [ngClass]="{'show': menuOpened}">
-        <a class="nav-link dropdown-toggle" (click)="onToggleMenuOpened()" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true">
-          Admin
-        </a>
-        <div class="dropdown-menu" [ngClass]="{'show': menuOpened}" aria-labelledby="navbarDropdown">
-          <a (click)="onFetchRecipes()" class="dropdown-item">Fetch Recipes</a>
-          <a (click)="onStoreRecipes()" class="dropdown-item">Store Recipes</a>
-        </div>
-      </li>
-    </ul>
-  </div>
-</nav>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="onFetchRecipes()">Fetch Recipes</button>
+  <button mat-menu-item (click)="onStoreRecipes()">Store Recipes</button>
+</mat-menu>
+
+<mat-toolbar color="primary" class="navbar">
+  <span [routerLink]="modulePath">Playground</span>
+  <mat-nav-list class="list-horizontal">
+    <a mat-list-item [routerLink]="[modulePath, 'recipes']" class="nav-link">
+      <mat-icon>restaurant</mat-icon>
+    </a>
+    <a mat-list-item [routerLink]="[modulePath, 'shopping-list']" [matBadge]="getItemsCount()" matBadgeColor="accent"
+      class="nav-link">
+      <mat-icon>local_grocery_store</mat-icon>
+    </a>
+    <a mat-list-item [matMenuTriggerFor]="menu" class="nav-link">
+      <mat-icon>backup</mat-icon>
+    </a>
+  </mat-nav-list>
+</mat-toolbar>
