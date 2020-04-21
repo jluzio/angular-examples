@@ -1,11 +1,23 @@
-<div class="row">
-  <div class="col-xs-10">
-    <app-shopping-list-add [item]="selectedItem"></app-shopping-list-add>
-    <hr>
-    <ul class="list-group">
-      <a class="list-group-item" style="cursor: pointer" *ngFor="let item of items" (click)="onSelectItem(item)">
+<mat-card>
+  <mat-card-header>
+    <mat-icon mat-card-avatar>local_grocery_store</mat-icon>
+    <mat-card-title>Shopping List</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-chip-list>
+      <mat-chip *ngFor="let item of items" (click)="onSelectItem(item)">
         {{item.name}} ({{item.amount}})
-      </a>
-    </ul>
-  </div>
-</div>
+      </mat-chip>
+    </mat-chip-list>
+    <div class="p-2" *ngIf="items.length">
+      <mat-divider></mat-divider>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-icon-button type="button" color="primary" (click)="onNewItem()" *ngIf="!selectedItem">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
+<app-shopping-list-edit [ingredient]="selectedItem" [isNew]="isNewItem" (update)="onUpdateItem($event)"
+  (cancel)="onCancelUpdateItem($event)" (delete)="onDeleteItem($event)" *ngIf="selectedItem"></app-shopping-list-edit>

@@ -1,11 +1,11 @@
-import { ShoppingListComponent } from './shopping-list.component';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { ShoppingListComponent } from './shopping-list.component'
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
 
 
 export const routes: Routes = [
-    { path: '', component: ShoppingListComponent }
-];
+  { path: '', component: ShoppingListComponent }
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
