@@ -1,8 +1,6 @@
-<div class="row">
-  <div class="col-xs-12">
-    <div class="list-group">
-      <app-comment-item *ngFor="let comment of comments; let i = index" [comment]="comment" [commentId]="comment.id"></app-comment-item>
-    </div>
-  </div>
-</div>
-
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    Comments ({{comments?.length}})
+  </mat-expansion-panel-header>
+  <app-comment-item *ngFor="let comment of comments; let i = index" [comment]="comment" [commentId]="comment.id"></app-comment-item>
+</mat-expansion-panel>

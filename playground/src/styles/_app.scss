@@ -11,6 +11,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   justify-items: flex-end;
 }
 
+.list-horizontal,
 .mat-nav-list.list-horizontal {
   display: flex;
   flex-direction: row;

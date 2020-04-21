@@ -9,7 +9,7 @@ import { ShoppingListService } from '../../shopping-list';
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
-  styles: []
+  styleUrls: ['./recipe-detail.component.scss']
 })
 export class RecipeDetailComponent implements OnInit, OnDestroy {
   selectedRecipe: Recipe;

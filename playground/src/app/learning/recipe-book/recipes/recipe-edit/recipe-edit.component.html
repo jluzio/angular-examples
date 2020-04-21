@@ -1,107 +1,83 @@
-<div class="row">
-  <div class="col-xs-12">
-    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-xs-12">
-          <button type="submit" class="btn btn-success" [disabled]="!recipeForm.valid">Save</button>
-          <a class="btn btn-danger" (click)="onCancel()">Cancel</a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="name">Title</label>
-            <input
-              type="text"
-              id="name"
-              formControlName="name"
-              class="form-control">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="image-url">Image Url</label>
-            <input
-              type="text"
-              id="image-url"
-              formControlName="imagePath"
-              class="form-control"
-              #imageUrl>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="img">
-            <img [src]="imageUrl.value" class="image-responsive">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="content">Content</label>
-            <textarea
-              type="text"
-              id="content"
-              formControlName="description"
-              rows="6"
-              class="form-control">
-            </textarea>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <ul class="list-group" formArrayName="ingredients">
-            <div
-              *ngFor="let item of recipeForm.controls['ingredients']; let i = index"
-              class="row">
-              <div formGroupName="{{i}}">
-                <div class="col-sm-5">
-                  <input
-                    type="text"
-                    formControlName="name"
-                    class="form-control">
-                </div>
-                <div class="col-sm-5">
-                  <input
-                    type="number"
-                    formControlName="amount"
-                    class="form-control">
-                </div>
-                <div class="col-sm-2">
-                  <button class="btn btn-danger" (click)="onDeleteIngredient(i)">X</button>
-                </div>
-              </div>
-
-              <br><br>
-            </div>
-          </ul>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-<hr>
-<div class="row">  
-  <div class="col-xs-12">
-    <form [formGroup]="newIngredientForm">
-      <div class="form-group row">
-        <div class="col-md-5"><input type="text" class="form-control" formControlName="name"></div>
-        <div class="col-md-5"><input type="number" class="form-control" formControlName="amount"></div>
-        <div class="col-md-2">
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="onAddIngredient()"
-            [disabled]="!newIngredientForm.valid">
-            +
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
+<div class="recipe-edit">
+  <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <mat-card class="max-width">
+      <mat-card-header>
+        <mat-icon matCardAvatar>create</mat-icon>
+        <mat-card-title>Recipe</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field class="max-width">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" id="name" placeholder="Name">
+          <mat-error *ngIf="recipeForm.get('name').invalid">
+            Please enter a valid name
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="max-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" id="description" rows="3" placeholder="description">
+          </textarea>
+          <mat-error *ngIf="recipeForm.get('description').invalid">
+            Please enter a valid description
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="max-width">
+          <mat-label>Image</mat-label>
+          <input matInput formControlName="imagePath" placeholder="url" #imagePath>
+          <mat-error *ngIf="recipeForm.get('imagePath').invalid">
+            Please enter a valid email address
+          </mat-error>
+        </mat-form-field>
+        <img mat-card-image [src]="imagePath.value" *ngIf="!recipeForm.get('imagePath').invalid">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Ingredients</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-list formArrayName="ingredients">
+              <mat-list-item *ngFor="let ingredient of recipeForm.controls['ingredients'].value; let i = index">
+                <p matLine>{{ingredient.name}} [{{ingredient.amount}}]</p>
+                <button mat-icon-button type="button" color="primary" (click)="onEditIngredient(i)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button type="button" color="warn" (click)="onDeleteIngredient(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </form>
+  <mat-divider></mat-divider>
+  <form [formGroup]="editIngredientForm">
+    <mat-card class="max-width">
+      <mat-card-header>
+        <mat-icon matCardAvatar>edit</mat-icon>
+        <mat-card-title>
+          Edit Ingredient
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field class="max-width">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" placeholder="name">
+          <mat-error *ngIf="editIngredientForm.get('name').invalid">
+            Please enter a valid name
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="max-width">
+          <mat-label>Amount</mat-label>
+          <input matInput formControlName="amount" placeholder="amount">
+          <mat-error *ngIf="editIngredientForm.get('amount').invalid">
+            Please enter a valid amount
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="onSubmitIngredient()" [disabled]="!editIngredientForm.valid">Submit</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
 </div>

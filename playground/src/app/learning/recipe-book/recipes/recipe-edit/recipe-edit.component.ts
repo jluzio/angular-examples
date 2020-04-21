@@ -10,11 +10,12 @@ import { Ingredient } from '../../shared/ingredient';
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
-  styles: []
+  styleUrls: ['./recipe-edit.component.scss']
 })
 export class RecipeEditComponent implements OnInit, OnDestroy {
   recipeForm: FormGroup;
-  newIngredientForm: FormGroup;
+  editIngredientForm: FormGroup;
+  editIngredientIndex: number | null = null
   recipeId: number;
   paramsSub: Subscription;
   recipe: Recipe;
@@ -67,7 +68,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
       );
     }
 
-    this.newIngredientForm = this.createIngredientGroup(this.createDefaultIngredient());
+    this.editIngredientForm = this.createIngredientGroup(this.createDefaultIngredient());
   }
 
   private createIngredientGroup(ingredient: Ingredient) {
@@ -92,15 +93,26 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     this.navigateBack();
   }
 
-  onAddIngredient() {
+  onSubmitIngredient() {
     // NOTE: this.newIngredientForm.value is NOT of type Recipe (but is a compatible map)
-    let newIngredient: Ingredient = this.newIngredientForm.value;
-    this.getIngredientsControl().push( this.createIngredientGroup(newIngredient) );
-    this.newIngredientForm.reset(this.createDefaultIngredient());
+    let ingredient: Ingredient = this.editIngredientForm.value;
+    if (this.editIngredientIndex != null) {
+      this.getIngredientsControl().at(this.editIngredientIndex).setValue(ingredient);
+    } else {
+      this.getIngredientsControl().push( this.createIngredientGroup(ingredient) );
+    }
+    this.editIngredientForm.reset(this.createDefaultIngredient());
+    this.editIngredientIndex = null
   }
 
   onDeleteIngredient(index: number) {
     this.getIngredientsControl().removeAt(index);
+  }
+
+  onEditIngredient(index: number) {
+    const ingredientControl = this.getIngredientsControl().at(index)
+    this.editIngredientForm.setValue(ingredientControl.value)
+    this.editIngredientIndex = index
   }
 
   private getIngredientsControl() {
