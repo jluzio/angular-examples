@@ -1,11 +1,11 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router'
+import { Component, OnInit, OnDestroy } from '@angular/core'
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms'
+import { Subscription } from 'rxjs'
 
-import { RecipeService } from '../recipe.service';
-import { Recipe } from '../recipe';
-import { Ingredient } from '../../shared/ingredient';
+import { RecipeService } from '../recipe.service'
+import { Recipe } from '../recipe'
+import { Ingredient } from '../../shared/ingredient'
 
 @Component({
   selector: 'app-recipe-edit',
@@ -13,12 +13,12 @@ import { Ingredient } from '../../shared/ingredient';
   styleUrls: ['./recipe-edit.component.scss']
 })
 export class RecipeEditComponent implements OnInit, OnDestroy {
-  recipeForm: FormGroup;
-  editIngredientForm: FormGroup;
+  recipeForm: FormGroup
+  editIngredientForm: FormGroup
   editIngredientIndex: number | null = null
-  recipeId: number;
-  paramsSub: Subscription;
-  recipe: Recipe;
+  recipeId: number
+  paramsSub: Subscription
+  recipe: Recipe
 
   validators = {
     number: [Validators.required],
@@ -33,13 +33,13 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     private router: Router) {
     this.paramsSub = route.params.subscribe(
       params => {
-        this.recipeId = params.hasOwnProperty('id') ? +params['id'] : null;
+        this.recipeId = params.hasOwnProperty('id') ? +params.id : null
         if (this.recipeId === null) {
-          this.recipe = this.createDefaultRecipe();
+          this.recipe = this.createDefaultRecipe()
         } else {
-          this.recipe = this.recipeService.getRecipe(this.recipeId);
+          this.recipe = this.recipeService.getRecipe(this.recipeId)
         }
-        this.initForm(this.recipe);
+        this.initForm(this.recipe)
       }
     )
   }
@@ -48,27 +48,27 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.paramsSub.unsubscribe();
+    this.paramsSub.unsubscribe()
   }
 
   private initForm(recipe: Recipe) {
-    let fb = this.formBuilder;
-    let ingredientsControl = fb.array([]);
+    const fb = this.formBuilder
+    const ingredientsControl = fb.array([])
     this.recipeForm = fb.group({
       name: fb.control(recipe.name, this.validators.text),
       imagePath: fb.control(recipe.imagePath, this.validators.url),
       description: fb.control(recipe.description, this.validators.text),
       ingredients: ingredientsControl
-    });
+    })
     if (recipe.ingredients) { // needed if recipe is given storage without the ingredients property
       recipe.ingredients.forEach(
-        (ingredient, index) => {        
-          ingredientsControl.push( this.createIngredientGroup(ingredient) );
+        (ingredient, index) => {
+          ingredientsControl.push(this.createIngredientGroup(ingredient))
         }
-      );
+      )
     }
 
-    this.editIngredientForm = this.createIngredientGroup(this.createDefaultIngredient());
+    this.editIngredientForm = this.createIngredientGroup(this.createDefaultIngredient())
   }
 
   private createIngredientGroup(ingredient: Ingredient) {
@@ -79,34 +79,34 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.recipeForm);
-    console.log(this.recipeForm.value);
+    console.log(this.recipeForm)
+    console.log(this.recipeForm.value)
     // NOTE: this.recipeForm.value is NOT of type Recipe (but is a compatible map)
-    let recipe: Recipe = this.recipeForm.value;
-    console.log(recipe);
+    const recipe: Recipe = this.recipeForm.value
+    console.log(recipe)
 
-    this.recipeService.saveOrUpdateRecipe(this.recipeId, recipe);
-    this.navigateBack();
+    this.recipeService.saveOrUpdateRecipe(this.recipeId, recipe)
+    this.navigateBack()
   }
 
   onCancel() {
-    this.navigateBack();
+    this.navigateBack()
   }
 
   onSubmitIngredient() {
     // NOTE: this.newIngredientForm.value is NOT of type Recipe (but is a compatible map)
-    let ingredient: Ingredient = this.editIngredientForm.value;
+    const ingredient: Ingredient = this.editIngredientForm.value
     if (this.editIngredientIndex != null) {
-      this.getIngredientsControl().at(this.editIngredientIndex).setValue(ingredient);
+      this.getIngredientsControl().at(this.editIngredientIndex).setValue(ingredient)
     } else {
-      this.getIngredientsControl().push( this.createIngredientGroup(ingredient) );
+      this.getIngredientsControl().push(this.createIngredientGroup(ingredient))
     }
-    this.editIngredientForm.reset(this.createDefaultIngredient());
+    this.editIngredientForm.reset(this.createDefaultIngredient())
     this.editIngredientIndex = null
   }
 
   onDeleteIngredient(index: number) {
-    this.getIngredientsControl().removeAt(index);
+    this.getIngredientsControl().removeAt(index)
   }
 
   onEditIngredient(index: number) {
@@ -116,20 +116,20 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   private getIngredientsControl() {
-    return (<FormArray>this.recipeForm.controls['ingredients']);
+    return (<FormArray>this.recipeForm.controls.ingredients)
   }
-  
+
   private navigateBack() {
-    console.log("navigateBack")
-    this.router.navigate([".."], {relativeTo: this.route});
+    console.log('navigateBack')
+    this.router.navigate(['..'], { relativeTo: this.route })
   }
 
   private createDefaultRecipe() {
-    return new Recipe(null, "", "", "", []);
+    return new Recipe(null, '', '', '', [])
   }
 
   private createDefaultIngredient() {
-    return new Ingredient("", 1);
+    return new Ingredient('', 1)
   }
 
 }
