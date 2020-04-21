@@ -1,18 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
 
-import { RecipeBookRoutingModule } from './recipe-book-routing.module';
-import { RecipeBookComponent } from './recipe-book.component';
-import { RecipeBookHomeComponent } from './recipe-book-home.component';
-import { RecipeBookHeaderComponent } from './recipe-book-header.component';
-import { DropdownDirective } from './dropdown.directive';
-import { RecipeService } from './recipes';
-import { ShoppingListService } from './shopping-list';
-import { StorageService } from './storage.service';
-import { RestService } from './rest.service';
-import { CommentService } from './comments/comment.service';
-import { HttpClientModule } from '@angular/common/http';
-import { AppCommonModule } from '@/app/app-common.module';
+import { RecipeBookRoutingModule } from './recipe-book-routing.module'
+import { RecipeBookComponent } from './recipe-book.component'
+import { RecipeBookHomeComponent } from './recipe-book-home.component'
+import { RecipeBookHeaderComponent } from './recipe-book-header.component'
+import { DropdownDirective } from './dropdown.directive'
+import { RecipeService } from './recipes'
+import { ShoppingListService } from './shopping-list'
+import { StorageService } from './storage.service'
+import { RestService } from './rest.service'
+import { CommentService } from './comments/comment.service'
+import { HttpClientModule } from '@angular/common/http'
+import { AppCommonModule } from '@/app/app-common.module'
+import { FirebaseService } from './firebase.service'
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AppCommonModule } from '@/app/app-common.module';
     RecipeService,
     ShoppingListService,
     StorageService,
+    FirebaseService,
     RestService,
     CommentService
   ],

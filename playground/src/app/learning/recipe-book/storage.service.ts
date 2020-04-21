@@ -1,71 +1,49 @@
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from '@/environments/environment';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { Observable, of, from } from 'rxjs'
+import { environment } from '@/environments/environment'
+import firebase, { firestore } from 'firebase'
+import { Recipe } from './recipes/recipe'
+import { tap } from 'rxjs/operators'
+import { FirebaseService } from './firebase.service'
 
 @Injectable()
 export class StorageService {
-  private dbUrl = environment.apiKeys["recipe-book"];
-  private resourceKey = "{resource}";
-  private resourcePattern = `${this.dbUrl}/angular-examples/recipe-book/${this.resourceKey}.json`;
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+  private apiConfig = environment.apiConfig['recipe-book']
+  private db: typeof firebase = null
+  private resourceId = (resourceKey: string) => `angular-examples/recipe-book/${resourceKey}`
+
+  constructor(private firebaseService: FirebaseService) {
+    this.firebaseService.db.subscribe(fb => this.db = fb)
+  }
+
+  private get collectionRef() {
+    return this.db.firestore().collection('/angular-examples-recipe-book')
+  }
+  private get recipesRef() {
+    return firebase.firestore().doc('/angular-examples-recipe-book/recipes')
+  }
+
+  public getRecipes(): Observable<Recipe[]> {
+    this.collectionRef.get().then(v => {
+      console.log('c.1', v)
+      console.log('c.2', v.docs)
+      console.log('c.3', v.size)
     })
-  };
-
-  constructor(private http: HttpClient) { }
-
-  public getResource<T>(resource: string) {
-    return <Observable<T>> this.http.get(this.resourceUrl(resource));
+    this.recipesRef.get().then(v => {
+      console.log('r.1', v)
+      console.log('r.2', v.data())
+    })
+    return from(this.recipesRef.get().then(data => data.data() as Recipe[] ?? []))
+      .pipe(
+        tap(v => console.log('getRecipes', v))
+      )
   }
 
-  public postResource(resource: string, data: any) {
-    return this.http.post(this.resourceUrl(resource), JSON.stringify(data), this.httpOptions);
+  public postRecipes(recipes: Recipe[]): Observable<void> {
+    return from(this.recipesRef.set(recipes))
+      .pipe(
+        tap(v => console.log('postRecipes', v))
+      )
   }
-
-  public putResource(resource: string, data: any) {
-    return this.http.put(this.resourceUrl(resource), JSON.stringify(data), this.httpOptions);
-  }
-  
-  public deleteResource(resource: string) {
-    return this.http.delete(this.resourceUrl(resource));
-  }
-
-  public getResourceAsPromise(resource: string) {
-    return this.http.get(this.resourceUrl(resource))
-      .toPromise();
-  }
-
-  private resourceUrl(resource: string) {
-    return this.resourcePattern.replace(this.resourceKey, resource);
-  }
-  
-  /*
-  private handleErrorAsPromise(error: any): Promise<any> {
-    let errMsg = this.getErrorMessage(error);
-    console.error(errMsg);
-    return Promise.reject(errMsg);
-  }
-
-  private handleErrorAsObservable(error: Response | any) {
-    let errMsg = this.getErrorMessage(error);
-    console.error(errMsg);
-    return Observable.throw(errMsg);
-  }  
-
-  private getErrorMessage(error: Response | any) {
-    // In a real world app, we might use a remote logging infrastructure
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.body || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    return errMsg;
-  }
-  */
-
 }

@@ -1,7 +1,7 @@
-import apiKeys from './api-keys.json'
+import apiConfig from './api-config.prod.json'
 
 export const environment = {
-  production: true,
-  apiKeys,
-  restApiUrl: "https://jsonplaceholder.typicode.com"
-};
+  production: false,
+  apiConfig,
+  restApiUrl: 'https://jsonplaceholder.typicode.com'
+}
