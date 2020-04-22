@@ -1,49 +1,63 @@
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Observable, of, from } from 'rxjs'
-import { environment } from '@/environments/environment'
-import firebase, { firestore } from 'firebase'
+import { Observable, of, from, forkJoin } from 'rxjs'
+import firebase from 'firebase'
 import { Recipe } from './recipes/recipe'
-import { tap } from 'rxjs/operators'
+import { tap, combineAll } from 'rxjs/operators'
 import { FirebaseService } from './firebase.service'
+
+const recipeConverter: firebase.firestore.FirestoreDataConverter<Recipe> = {
+  fromFirestore(snapshot, options) {
+    const data = snapshot.data(options)
+    return {
+      id: data.id,
+      description: data.description,
+      imagePath: data.imagePath,
+      ingredients: JSON.parse(data.ingredients),
+      name: data.name
+    }
+  },
+  toFirestore(recipe) {
+    const { description, id, imagePath, ingredients, name } = recipe
+    return {
+      description,
+      id,
+      imagePath,
+      ingredients: JSON.stringify(ingredients),
+      name
+    }
+  }
+}
 
 @Injectable()
 export class StorageService {
-  private apiConfig = environment.apiConfig['recipe-book']
   private db: typeof firebase = null
-  private resourceId = (resourceKey: string) => `angular-examples/recipe-book/${resourceKey}`
+  private collectionId = (collectionId: string) => `angular-recipes:${collectionId}`
+  private docId = (collectionId: string, docId: string) => `${this.collectionId(collectionId)}/${docId}`
 
   constructor(private firebaseService: FirebaseService) {
     this.firebaseService.db.subscribe(fb => this.db = fb)
   }
 
-  private get collectionRef() {
-    return this.db.firestore().collection('/angular-examples-recipe-book')
-  }
   private get recipesRef() {
-    return firebase.firestore().doc('/angular-examples-recipe-book/recipes')
+    return this.db.firestore().collection(this.collectionId('recipes'))
   }
 
   public getRecipes(): Observable<Recipe[]> {
-    this.collectionRef.get().then(v => {
-      console.log('c.1', v)
-      console.log('c.2', v.docs)
-      console.log('c.3', v.size)
-    })
-    this.recipesRef.get().then(v => {
-      console.log('r.1', v)
-      console.log('r.2', v.data())
-    })
-    return from(this.recipesRef.get().then(data => data.data() as Recipe[] ?? []))
-      .pipe(
-        tap(v => console.log('getRecipes', v))
-      )
+    return from(
+      this.recipesRef
+        .withConverter(recipeConverter)
+        .get()
+        .then(snapshot => snapshot.docs.map(d => d.data()))
+    )
   }
 
   public postRecipes(recipes: Recipe[]): Observable<void> {
-    return from(this.recipesRef.set(recipes))
-      .pipe(
-        tap(v => console.log('postRecipes', v))
-      )
+    const promises = recipes.map(r => {
+      return this.recipesRef
+        .doc(r.id.toString())
+        .withConverter(recipeConverter)
+        .set(r)
+    })
+    return from(Promise.all(promises).then(v => { }))
   }
 }
