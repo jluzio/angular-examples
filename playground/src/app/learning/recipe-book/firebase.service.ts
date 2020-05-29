@@ -9,7 +9,7 @@ export class FirebaseService {
 
   constructor() {
     this.app = firebase.initializeApp(this.appCfg.config)
-    firebase.analytics()
+    this.app.analytics()
     this.signIn()
   }
 
