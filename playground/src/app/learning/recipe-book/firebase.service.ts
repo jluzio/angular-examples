@@ -1,26 +1,20 @@
 import { Injectable } from '@angular/core'
 import { environment } from '@/environments/environment'
 import firebase from 'firebase'
-import { ReplaySubject } from 'rxjs'
 
 @Injectable()
 export class FirebaseService {
-  private apiConfig = environment.apiConfig['recipe-book']
-  public db = new ReplaySubject<typeof firebase>()
+  private appCfg = environment.apiConfig['recipe-book'].firebase
+  public app: firebase.app.App
 
   constructor() {
-    // Initialize Firebase
-    firebase.initializeApp(this.apiConfig.firebase)
+    this.app = firebase.initializeApp(this.appCfg.config)
     firebase.analytics()
-    const { username, password } = this.apiConfig.auth
-    const login = firebase.auth().signInWithEmailAndPassword(username, password)
-    login.then(v => {
-      console.log('logged in')
-      this.db.next(firebase)
-    }).catch(err => {
-      console.log('error', err)
-      this.db.error(new Error(err))
-    })
+    this.signIn()
   }
 
+  async signIn() {
+    const { username, password } = this.appCfg.auth
+    return this.app.auth().signInWithEmailAndPassword(username, password)
+  }
 }

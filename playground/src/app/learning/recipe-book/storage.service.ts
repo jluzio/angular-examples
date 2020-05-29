@@ -30,12 +30,12 @@ const recipeConverter: firebase.firestore.FirestoreDataConverter<Recipe> = {
 
 @Injectable()
 export class StorageService {
-  private db: typeof firebase = null
+  private db: firebase.app.App = null
   private collectionId = (collectionId: string) => `angular-recipes:${collectionId}`
   private docId = (collectionId: string, docId: string) => `${this.collectionId(collectionId)}/${docId}`
 
-  constructor(private firebaseService: FirebaseService) {
-    this.firebaseService.db.subscribe(fb => this.db = fb)
+  constructor(firebaseService: FirebaseService) {
+    this.db = firebaseService.app
   }
 
   private get recipesRef() {
