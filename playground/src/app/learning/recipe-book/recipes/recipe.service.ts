@@ -1,8 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core'
-
 import { StorageService } from '../storage.service'
 import { Recipe } from './recipe'
 import { Ingredient } from '../shared'
+import { from } from 'rxjs'
 
 @Injectable()
 export class RecipeService {
@@ -45,7 +45,7 @@ export class RecipeService {
   getRecipesStorage() {
     console.log('getRecipesStorage')
     this.recipes = []
-    this.storageService.getRecipes().subscribe(
+    from(this.storageService.getRecipes()).subscribe(
       data => {
         console.log(JSON.stringify(data))
         this.recipes = data
@@ -68,7 +68,7 @@ export class RecipeService {
 
   saveRecipesStorage() {
     console.log('saveRecipesStorage')
-    this.storageService.postRecipes(this.recipes).subscribe(
+    from(this.storageService.postRecipes(this.recipes)).subscribe(
       data => {
         console.log('Recipes saved')
       },

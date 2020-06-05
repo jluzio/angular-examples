@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core'
-import { Observable, of, from, forkJoin } from 'rxjs'
 import firebase from 'firebase'
 import { Recipe } from './recipes/recipe'
-import { tap, combineAll } from 'rxjs/operators'
-import { FirebaseService } from './firebase.service'
+import { FirebaseAppService } from './firebase-app.service'
 
 const recipeConverter: firebase.firestore.FirestoreDataConverter<Recipe> = {
   fromFirestore(snapshot, options) {
@@ -28,36 +26,43 @@ const recipeConverter: firebase.firestore.FirestoreDataConverter<Recipe> = {
   }
 }
 
+type App = firebase.app.App
+
 @Injectable()
 export class StorageService {
-  private db: firebase.app.App = null
+
+  constructor(private firebaseAppService: FirebaseAppService) {
+  }
+
+  private get firebaseApp() {
+    return this.firebaseAppService.connect()
+  }
+
+  private refs = {
+    recipesRef: (app: App) => app.firestore().collection(this.collectionId('recipes'))
+  }
+
   private collectionId = (collectionId: string) => `angular-recipes:${collectionId}`
   private docId = (collectionId: string, docId: string) => `${this.collectionId(collectionId)}/${docId}`
 
-  constructor(firebaseService: FirebaseService) {
-    this.db = firebaseService.app
+
+  async getRecipes(): Promise<Recipe[]> {
+    const app = await this.firebaseApp
+    return this.refs.recipesRef(app)
+      .withConverter(recipeConverter)
+      .get()
+      .then(snapshot => snapshot.docs.map(d => d.data()))
+
   }
 
-  private get recipesRef() {
-    return this.db.firestore().collection(this.collectionId('recipes'))
-  }
-
-  public getRecipes(): Observable<Recipe[]> {
-    return from(
-      this.recipesRef
-        .withConverter(recipeConverter)
-        .get()
-        .then(snapshot => snapshot.docs.map(d => d.data()))
-    )
-  }
-
-  public postRecipes(recipes: Recipe[]): Observable<void> {
+  async postRecipes(recipes: Recipe[]): Promise<void> {
+    const app = await this.firebaseApp
     const promises = recipes.map(r => {
-      return this.recipesRef
+      return this.refs.recipesRef(app)
         .doc(r.id.toString())
         .withConverter(recipeConverter)
         .set(r)
     })
-    return from(Promise.all(promises).then(v => { }))
+    return Promise.all(promises).then(v => { })
   }
 }

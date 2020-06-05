@@ -13,7 +13,7 @@ import { RestService } from './rest.service'
 import { CommentService } from './comments/comment.service'
 import { HttpClientModule } from '@angular/common/http'
 import { AppCommonModule } from '@/app/app-common.module'
-import { FirebaseService } from './firebase.service'
+import { FirebaseAppService } from './firebase-app.service'
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { FirebaseService } from './firebase.service'
     RecipeService,
     ShoppingListService,
     StorageService,
-    FirebaseService,
+    FirebaseAppService,
     RestService,
     CommentService
   ],
